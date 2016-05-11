@@ -15,6 +15,11 @@ io.on('connection', function(socket){
 	socket.on('chat message', function(msg){
 		socket.broadcast.emit('chat message', msg);
 	});
+
+	socket.on('typing', function(user){
+		console.log(user + ' is typing');
+		socket.broadcast.emit('typing', user);
+	});
 });
 
 http.listen(3000, function(){

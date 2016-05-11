@@ -16,6 +16,7 @@
 	</head>
 	<body>
 		<ul id="messages"></ul>
+		<div id="typing"></div>
 		<form action="">
 			<input id="u" autocomplete="off" placeholder="Username"/>
 			<input id="m" autocomplete="off" /><button>Send</button>
@@ -32,8 +33,25 @@
 			return false;
 		});
 
+		// Send out the typing indicator
+		$('#m').on('input', function(){
+			socket.emit('typing', $('#u').val())
+		});
+
 		socket.on('chat message', function(msg){
 			$('#messages').append($('<li>').text(msg.user + ': ' + msg.msg));
+		});
+
+		var timer = null;
+		socket.on('typing', function(username){
+			$('#typing').html(username + ' is typing');
+			if (timer) {
+				clearTimeout(timer);
+			}
+			timer = setTimeout(function(){
+				$('#typing').html('');
+			}, 2000);
+			
 		});
 		</script>
 	</body>
