@@ -40,6 +40,7 @@
 
 		socket.on('chat message', function(msg){
 			$('#messages').append($('<li>').text(msg.user + ': ' + msg.msg));
+
 		});
 
 		var timer = null;
